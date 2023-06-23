@@ -1,0 +1,15 @@
+C:\Users\tycho\OneDrive\Bureaublad\rythm\treeSharp\bin\Debug\net7.0\treeSharp.exe
+C:\Users\tycho\OneDrive\Bureaublad\rythm\treeSharp\bin\Debug\net7.0\treeSharp.deps.json
+C:\Users\tycho\OneDrive\Bureaublad\rythm\treeSharp\bin\Debug\net7.0\treeSharp.runtimeconfig.json
+C:\Users\tycho\OneDrive\Bureaublad\rythm\treeSharp\bin\Debug\net7.0\treeSharp.dll
+C:\Users\tycho\OneDrive\Bureaublad\rythm\treeSharp\bin\Debug\net7.0\treeSharp.pdb
+C:\Users\tycho\OneDrive\Bureaublad\rythm\treeSharp\obj\Debug\net7.0\treeSharp.csproj.AssemblyReference.cache
+C:\Users\tycho\OneDrive\Bureaublad\rythm\treeSharp\obj\Debug\net7.0\treeSharp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tycho\OneDrive\Bureaublad\rythm\treeSharp\obj\Debug\net7.0\treeSharp.AssemblyInfoInputs.cache
+C:\Users\tycho\OneDrive\Bureaublad\rythm\treeSharp\obj\Debug\net7.0\treeSharp.AssemblyInfo.cs
+C:\Users\tycho\OneDrive\Bureaublad\rythm\treeSharp\obj\Debug\net7.0\treeSharp.csproj.CoreCompileInputs.cache
+C:\Users\tycho\OneDrive\Bureaublad\rythm\treeSharp\obj\Debug\net7.0\treeSharp.dll
+C:\Users\tycho\OneDrive\Bureaublad\rythm\treeSharp\obj\Debug\net7.0\refint\treeSharp.dll
+C:\Users\tycho\OneDrive\Bureaublad\rythm\treeSharp\obj\Debug\net7.0\treeSharp.pdb
+C:\Users\tycho\OneDrive\Bureaublad\rythm\treeSharp\obj\Debug\net7.0\treeSharp.genruntimeconfig.cache
+C:\Users\tycho\OneDrive\Bureaublad\rythm\treeSharp\obj\Debug\net7.0\ref\treeSharp.dll
