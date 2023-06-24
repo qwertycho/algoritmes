@@ -15,7 +15,6 @@ class Model:
         to_predict.features = self._aligners.align_top(vector=to_predict.features, width=self.shape_width, height=self.shape_height)
         to_predict.features = self._aligners.align_left(vector=to_predict.features, width=self.shape_width, height=self.shape_height)
         neighbours = self._get_nearest_neighbours(to_predict, k)
-        print(neighbours)
         labels = []
         for neighbour in neighbours:
             labels.append(neighbour[1].label)
