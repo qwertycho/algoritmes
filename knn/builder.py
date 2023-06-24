@@ -1,5 +1,6 @@
 from modelClass import Model
 from modelClass import Item
+from aligners import Aligners
 
 class Builder:
     
@@ -8,7 +9,8 @@ class Builder:
     knn_model = None
     dataset_dir = ""
     train_datadir = ""
-        
+    _aligners = Aligners()        
+    
     #flags
     _mem_model = True
     _ret_on_load = True
@@ -34,38 +36,18 @@ class Builder:
         self.data_dir = dir
         
     def train_dir(self, dir):
-        self.train_datadir = dir
+        self.train_datadir = dir  
 
-    def _load_dataset(self, dir):
-        '''
-        load all *.json files from the data_dir and convert them into Items
-        '''
-        import os
-        import json
-        json_data = []
-        for file in os.listdir(dir):
-            if file.endswith(".json"):
-                with open(os.path.join(dir, file), 'r') as f:
-                    json_data.append(json.load(f))
-        return self._convert_json_to_item(json_data)
-    
-    def _convert_json_to_item(self, data):
-        items = []
-        for object in data:
-            label = object.get("name")
-            shape = object.get("data")
-            if not shape == None and not label == None:
-                items.append(Item(label, shape))
-            else:
-                print("Item did not have label or shape!")
-        return items
-    
     def make_model(self) -> Model:
         '''
         build the model and return it \n
         keeps the model in memory if the _mem_model flag is set
         '''
-        model = Model(self.shape_width, self.shape_height, self._load_dataset(self.data_dir))
+        model = Model(width=self.shape_width, 
+                      height=self.shape_height, 
+                      dataset=self._load_dataset(self.data_dir),
+                      aligners = self._aligners,
+                                         )
             
         if self._mem_model:
             self.knn_model = model
@@ -104,46 +86,61 @@ class Builder:
             
         train_data = self._load_dataset(self.train_datadir)
         
-        prev_score = None
-        score = 0
-        ideal_k = 5
+        score = 0 
+        highscore = 0
+        ideal_k = epochs 
         
-        for i in range(epochs):
+        new_k = 0
+                
+        for new_k in range(epochs):
+            new_k += 1
             score = 0
-
-            print("Epoch: " + str(i))
-            print("items in train data: " + str(len(train_data)))
+            
+            print("Epoch: " + str(new_k))
             for item in train_data:
                 prediction = model.get_prediction(item, ideal_k)
                 if prediction == item.label:
                     score += 1
-                    if self._print_output:
-                        print("Correct prediction: " + prediction)
-                else:
-                    if self._print_output:
-                        print("Wrong prediction: " + prediction + " should be: " + item.label)
             
-            if prev_score == None:
-                pass
-            else:
-                if score > prev_score:
-                    ideal_k -= 1 
-                elif score < prev_score:
-                    ideal_k += 1
-                else:
-                    if self._print_output:
-                        print("Ideal k found: " + str(ideal_k))
-                        print("score: " + str(score))
-                    break
-            if self._print_output:
-                print("current k: " + str(ideal_k))
-                print("score: " + str(score))
-            prev_score = score
+            if score > highscore:
+                ideal_k = new_k
+                highscore = score
+                if self._print_output:
+                    print("score: " + str(score) + " at K: " + str(new_k))
             
             model._ideal_k = ideal_k
             
             if self._mem_model:
                 self.knn_model = model
         
-        
-        
+        if self._print_output:
+            print("new high score: " + str(highscore) + " at ideal K: " + str(ideal_k))
+            
+
+    def _load_dataset(self, dir):
+        '''
+        load all *.json files from the data_dir and convert them into Items
+        '''
+        import os
+        import json
+        json_data = []
+        for file in os.listdir(dir):
+            if file.endswith(".json"):
+                with open(os.path.join(dir, file), 'r') as f:
+                    json_data.append(json.load(f))
+        return self._convert_json_to_item(json_data)
+    
+    def _convert_json_to_item(self, data):
+        items = []
+        for object in data:
+            label = object.get("name")
+            shape = object.get("data")
+            if not shape == None and not label == None:
+                if not len(shape) == self.shape_width * self.shape_height:
+                    return Exception("Shape is not the same size as the input shape!")
+                shape = self._aligners.align_top(vector = shape, width = self.shape_width, height = self.shape_height)
+                shape = self._aligners.align_left(vector = shape, width = self.shape_width, height = self.shape_height)
+                items.append(Item(label, shape))
+            else:
+                print("Item did not have label or shape!")
+        return items

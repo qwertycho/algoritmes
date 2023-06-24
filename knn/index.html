@@ -200,6 +200,27 @@
             }
         }
     }
+
+    // make shape form user input (as a array of 0 and 1)
+    document.body.addEventListener("keydown", function (event) {
+        if (event.keyCode == 13) {
+            // let name = prompt("Enter name of the pattern");
+            let input = prompt("Enter the pattern (as a array of 0 and 1)");
+            let data = JSON.parse(input);
+            let object = {
+                name: name,
+                data: data
+            }
+            var blob = new Blob([JSON.stringify(object)], {
+                type: "application/json"
+            });
+
+            // save to local storage
+            localStorage.setItem("drawing", JSON.stringify(object));
+
+            document.location.reload();
+        }
+    });
 </script>
 
 <style>

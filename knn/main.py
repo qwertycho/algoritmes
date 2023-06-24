@@ -15,5 +15,5 @@ predicted = model.get_prediction(predict_item, k)
 print("Het is een: " +  predicted)
 
 maker.train_dir("predict")
-maker.fit(epochs = 5, model = model)
+maker.fit(epochs = k, model = model)
 maker.save_model("model")

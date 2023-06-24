@@ -3,14 +3,19 @@ class Model:
     shape_height = 0
     _ideal_k = 1
     dataset = []
+    _aligners = None
    
-    def __init__(self, width, height, dataset) -> None:
+    def __init__(self, width, height, dataset, aligners = None ) -> None:
         self.shape_width = width
         self.shape_height = height
         self.dataset = dataset
-        
+        self._aligners = aligners
+
     def get_prediction(self, to_predict, k = _ideal_k):
+        to_predict.features = self._aligners.align_top(vector=to_predict.features, width=self.shape_width, height=self.shape_height)
+        to_predict.features = self._aligners.align_left(vector=to_predict.features, width=self.shape_width, height=self.shape_height)
         neighbours = self._get_nearest_neighbours(to_predict, k)
+        print(neighbours)
         labels = []
         for neighbour in neighbours:
             labels.append(neighbour[1].label)
