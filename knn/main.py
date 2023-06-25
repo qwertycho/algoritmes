@@ -16,4 +16,5 @@ print("Het is een: " +  predicted)
 
 maker.train_dir("predict")
 maker.fit(epochs = k, model = model)
+maker.fit_from_distance(epochs = k, model = model)
 maker.save_model("model")

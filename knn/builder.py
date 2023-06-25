@@ -115,6 +115,44 @@ class Builder:
         
         if self._print_output:
             print("new high score: " + str(highscore) + " at ideal K: " + str(ideal_k))
+    
+    def fit_from_distance(self, epochs = 100, model = None):
+        if model == None:
+            model = self.knn_model
+            
+        train_data = self._load_dataset(self.train_datadir)
+        
+        score = 0 
+        highscore = 0
+        ideal_radius = 0 
+        
+        for new_radius in range(epochs +1):
+            score = 0
+            
+            print("Epoch: " + str(new_radius))
+            for item in train_data:
+                try:
+                    prediction = model.get_prediction_from_distance(item, new_radius)
+                    if prediction == item.label:
+                        score += 1
+                except:
+                    if  self._print_output:
+                        print("no prediction at k: " + str(new_radius))
+                    score = 0
+            
+            if score > highscore:
+                ideal_radius = new_radius
+                highscore = score
+                if self._print_output:
+                    print("score: " + str(score) + " at K: " + str(new_radius))
+            
+            model._ideal_radius = ideal_radius
+            
+            if self._mem_model:
+                self.knn_model = model
+        
+        if self._print_output:
+            print("New high score: " + str(highscore) + " at ideal radius: " + str(ideal_radius))
             
 
     def _load_dataset(self, dir):
